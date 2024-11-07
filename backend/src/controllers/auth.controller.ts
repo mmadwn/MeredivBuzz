@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import prisma from "../db/prisma.js";
 import bcryptjs from "bcryptjs";
-
+import { generateToken } from "../utils/generateToken.js";
 export const signup = async (req: Request, res: Response): Promise<void> => {
   try {
     const { fullName, username, password, confirmPassword, gender } = req.body;
@@ -40,7 +40,6 @@ export const signup = async (req: Request, res: Response): Promise<void> => {
     });
 
     if (newUser) {
-      //!Menitt ke 46 response ketika user berhasil dibuat dan generate token
       generateToken(newUser.id, res);
 
       res.status(201).json({
